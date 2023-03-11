@@ -38,6 +38,8 @@ const std::regex keys_TF("^(\t){1}[a-zA-Z]{1}[a-zA-Z_]* = (\[){1}('[a-zA-Z]{1}[a
 const std::regex d_tab("^(\[){1}('[a-zA-Z]{1}[a-zA-Z0-9_-]*', )*('[a-zA-Z]{1}[a-zA-Z0-9_-]*'){1}(\]){1}$");
 const std::regex d_val("^('[a-zA-Z]{1}[a-zA-Z0-9_-]*')|[0-9]+$");
 
+std::string SCDFTabToS(std::vector<std::string> d_tab);
+
 class SCDFFile
 {
 public:
