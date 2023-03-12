@@ -31,14 +31,16 @@ namespace Fenyx
 
 const std::regex beg_scdf("^-[tT][cC][fF]$", std::regex::optimize | std::regex::extended);
 const std::regex cat_scdf("^[\{][a-zA-Z]{1}[a-zA-Z_]*[}]$", std::regex::optimize | std::regex::extended);
-const std::regex com_scdf("^;[ \t]*[0-9a-zA-Z*/+=*&%@!.,_-]*[ \t]*", std::regex::optimize | std::regex::extended);
+const std::regex com_scdf("^;[ \t]*[0-9a-zA-Z*/+=*&%@!.,_ -]*[ \t]*$", std::regex::optimize | std::regex::extended);
 const std::regex keys_tf("^[ \t]*[a-zA-Z]{1}[a-zA-Z_]*[ ]*=[ ]*'*[a-zA-Z0-9_]+'*[ \t]*$", std::regex::optimize | std::regex::extended);
 const std::regex keys_Tf("^[ \t]*[a-zA-Z]{1}[a-zA-Z_]*[ ]*=[ ]*\[[a-zA-Z0-9_, ]*][ \t]*$", std::regex::optimize | std::regex::extended);
-const std::regex keys_tF("^\t[a-zA-Z]{1}[a-zA-Z_]* = '*[a-zA-Z0-9_]+'*$", std::regex::optimize | std::regex::extended);
-const std::regex keys_TF("^\t[a-zA-Z]{1}[a-zA-Z_]* = \[[a-zA-Z0-9_, ]*]$", std::regex::optimize | std::regex::extended);
+const std::regex keys_tF("^[ \t]+[a-zA-Z]{1}[a-zA-Z_]* = '*[a-zA-Z0-9_]+'*$", std::regex::optimize | std::regex::extended);
+const std::regex keys_TF("^[ \t]+[a-zA-Z]{1}[a-zA-Z_]* = \[[a-zA-Z0-9_, ]*]$", std::regex::optimize | std::regex::extended);
 const std::regex d_tab("^\[[a-zA-Z0-9_, ]*]$", std::regex::optimize | std::regex::extended);
 const std::regex d_val("^'*[a-zA-Z0-9_]+'*$", std::regex::optimize | std::regex::extended);
+const std::string Spaces = " \n\r\t\f\v";
 
+std::string TrimStr(std::string str);
 std::string SCDFTabToS(std::vector<std::string> d_tab);
 
 class SCDFFile

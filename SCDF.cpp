@@ -24,6 +24,21 @@
 namespace Fenyx
 {
 
+std::string TrimStr(std::string str)
+{
+    auto ltrim = [](std::string l_str) -> std::string {
+        size_t s = l_str.find_first_not_of(Spaces);
+        return (s == std::string::npos) ? "" : l_str.substr(s);
+    };
+
+    auto rtrim = [](std::string r_str) -> std::string {
+        size_t s = r_str.find_last_not_of(Spaces);
+        return (s == std::string::npos) ? "" : r_str.substr(0, s + 1);
+    };
+
+    return rtrim(ltrim(str));
+}
+
 std::string SCDFTabToS(std::vector<std::string> d_tab)
 {
     std::string ret = "[";
@@ -60,8 +75,8 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
         getline(sstr, k, '=');
         getline(sstr, v, '=');
 
-        k.erase(std::remove_if(k.begin(), k.end(), isspace), k.end());
-        v.erase(std::remove_if(v.begin(), v.end(), isspace), v.end());
+        k = TrimStr(k);
+        v = TrimStr(v);
     };
 
     for(auto i = data.begin(); i != data.end(); i = i++) i->second.clear();
@@ -71,7 +86,6 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
     if(file.is_open())
     {
         getline(file, l);
-        std::cout << "1" <<std::endl;
 
         if(std::regex_match(l, beg_scdf))
         {
@@ -88,7 +102,6 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
 
         while(getline(file, l))
         {
-            std::cout << "2" <<std::endl;
             if(std::regex_match(l, cat_scdf))
             {
                 l.erase(0, 1); l.erase(std::prev(l.end()));
@@ -98,7 +111,6 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(2) == 'f' && std::regex_match(l, keys_tf))
             {
-                std::cout << "3" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = false;
@@ -106,7 +118,6 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(2) == 'F' && std::regex_match(l, keys_tF))
             {
-                std::cout << "4" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = false;
@@ -114,7 +125,6 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(0) == 'T' && params.at(2) == 'f' && std::regex_match(l, keys_Tf))
             {
-                std::cout << "5" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = true;
@@ -122,7 +132,6 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(0) == 'T' && params.at(2) == 'F' && std::regex_match(l, keys_TF))
             {
-                std::cout << "6" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = true;
@@ -140,6 +149,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
 
     file.close();
 
+    syntax = true;
     return true;
 }
 
@@ -208,7 +218,7 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
             while (getline(sstr, str_t, ',')) t_tab.push_back(str_t);
 
             if(p >= t_tab.size()) return false;
-            t_tab[p].erase(std::remove_if(t_tab[p].begin(), t_tab[p].end(), isspace), t_tab[p].end());
+            t_tab[p] = TrimStr(t_tab[p]);
 
             d = t_tab[p];
         }
@@ -251,8 +261,6 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 
 bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 {
-
-    std::cout << "7" <<std::endl;
     if(std::regex_match(d, d_tab))
     {
         data[g][k].first = true;
@@ -260,8 +268,6 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
     }
     else if(std::regex_match(d, d_val)) data[g][k].first = false;
     else return false;
-
-    std::cout << "8" <<std::endl;
 
     data[g][k].second = d;
 
@@ -282,7 +288,7 @@ bool SCDFFile::IsExistK(std::string g, std::string k)
 SCDFFile::~SCDFFile()
 {
     for(auto i = data.begin(); i != data.end(); i++) i->second.clear();
-    
+
     data.clear();
     params = "";
 }
