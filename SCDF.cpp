@@ -24,6 +24,11 @@
 namespace Fenyx
 {
 
+/// @brief TrimStr - Enlève les espaces en début/fin de string
+///
+/// @param str: string à traiter
+///
+/// @return Une chaine de caractères, avec les espaces de début/fin supprimés.
 std::string TrimStr(std::string str)
 {
     auto ltrim = [](std::string l_str) -> std::string {
@@ -39,6 +44,11 @@ std::string TrimStr(std::string str)
     return rtrim(ltrim(str));
 }
 
+/// @brief SCDFTabToS - Créer une représentation d'un vector, dans une string, pour SCDF data
+///
+/// @param d_tab: Tableau de données
+///
+/// @return Une chaine de caractères, sous forme de tableau SCDF.
 std::string SCDFTabToS(std::vector<std::string> d_tab)
 {
     std::string ret = "[";
@@ -55,6 +65,9 @@ std::string SCDFTabToS(std::vector<std::string> d_tab)
     return ret;
 }
 
+/// @brief SCDFFile - Constructeur
+///
+/// Constructeur de la classe SCDFFile.
 SCDFFile::SCDFFile()
 {
     for(auto i = data.begin(); i != data.end(); i = i++) i->second.clear();
@@ -63,7 +76,14 @@ SCDFFile::SCDFFile()
     params = "TCF";
 }
 
-
+/// @brief Read - Lit un fichier .scdf
+///
+/// @param filen: Fichier à lire
+/// @param syntax: [true] si syntax ok, [false] sinon
+///
+/// @return [true] si la lecture a réussi, [false] sinon.
+///
+/// /!\ Utilise des expressions régulières, fonction assez lente. Privilégiez une seule instance à la fois.
 bool SCDFFile::Read(std::string filen, bool &syntax)
 {
     std::string l = "";
@@ -153,6 +173,13 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
     return true;
 }
 
+/// @brief Write - Écrit sans un fichier .scdf
+///
+/// @param filen: Nom du fichier
+///
+/// @return [true] si la lecture a réussi, [false] sinon.
+///
+/// Une std::map est utilisée, pour stocker les données. Les catégories/clés sont donc écrites, dans le fichier, par ordre alphabétique.
 bool SCDFFile::Write(std::string filen)
 {
     std::ofstream file(filen + ".scdf");
@@ -180,6 +207,15 @@ bool SCDFFile::Write(std::string filen)
     return true;
 }
 
+/// @brief GetData - Récupères la valeur contenue g/k
+///
+/// @param g: Groupe
+/// @param k: Clé
+/// @param d: Valeur de g/k
+///
+/// @return [true] si réussi, [false] sinon.
+///
+/// /!\ Ne permets pas de récupérer une valeur dans un tableau.
 bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
 {
     if(FindGrp(g))
@@ -196,6 +232,16 @@ bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
     return true;
 }
 
+/// @brief GetTData - Récupères la valeur contenue dans g/k[p]
+///
+/// @param g: Groupe
+/// @param k: Clé
+/// @param d: Valeur de g/k[p]
+/// @param p: Position de la valeur, dans le tableau k
+///
+/// @return [true] si réussi, [false] sinon.
+///
+/// /!\ Ne permets pas de récupérer une valeur simple.
 bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p)
 {
     if(params.at(0) == 't') return false;
@@ -229,6 +275,15 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
     return true;
 }
 
+/// @brief GetTSize - Récupères la taille du tableau g/k[]
+///
+/// @param g: Groupe
+/// @param k: Clé
+/// @param s: Taille du tableau g/k[]
+///
+/// @return [true] si réussi, [false] sinon.
+///
+/// Renvoie [false] si g/k n'est pas un tableau.
 bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 {
     if(params.at(0) == 't') return false;
@@ -259,6 +314,15 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
     return true;
 }
 
+/// @brief SetData - Mets à jour la valeur de g/k
+///
+/// @param g: Groupe
+/// @param k: Clé
+/// @param d: Valeur à mettre dans g/k
+///
+/// @return [true] si réussi, [false] sinon.
+///
+/// Si d contient un tableau, alors g/k deviendra g/k[], et le cas échéant, le paramètre UseTabs sera activé.
 bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 {
     if(std::regex_match(d, d_tab))
@@ -274,17 +338,30 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
     return true;
 }
 
+/// @brief IsExistG - Vérifie si un groupe existe, dans les données
+///
+/// @param g: Groupe
+///
+/// @return [true] si g existe, [false] sinon.
 bool SCDFFile::IsExistG(std::string g)
 {
     return FindGrp(g);
 }
 
+/// @brief IsExistK - Vérifie si une clé existe, dans les données
+///
+/// @param g: Groupe
+/// @param k: Clé
+///
+/// @return [true] si g/k existe, [false] sinon.
 bool SCDFFile::IsExistK(std::string g, std::string k)
 {
     return FindKey(g, k);
 }
 
-
+/// @brief SCDFFile - Destructeur
+///
+/// Destructeur de la classe SCDFFile.
 SCDFFile::~SCDFFile()
 {
     for(auto i = data.begin(); i != data.end(); i++) i->second.clear();
