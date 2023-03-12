@@ -28,7 +28,11 @@ std::string SCDFTabToS(std::vector<std::string> d_tab)
 {
     std::string ret = "[";
 
-    for(auto i = d_tab.begin(); i != d_tab.end(); i++) ret += *i; ret += ", ";
+    for(auto i = d_tab.begin(); i != d_tab.end(); i++)
+    {
+        ret += *i; 
+        ret += ", ";
+    }
 
     ret.erase(std::prev(ret.end())); ret.erase(std::prev(ret.end()));
     ret += "]";
