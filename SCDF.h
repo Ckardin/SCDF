@@ -28,9 +28,9 @@
 namespace Fenyx
 {
 
-const std::regex beg_scdf("^-(t|T)(c|C)(f|F)$");
+const std::regex beg_scdf("^(-)(t|T)(c|C)(f|F)$");
 const std::regex cat_scdf("^(\{){1}[a-zA-Z]{1}[a-zA-Z_]*(}){1}$");
-const std::regex com_scdf("^;[[:blank:]]*([a-zA-Z0-9[[:puct:]]])*[[:blank:]]*$");
+const std::regex com_scdf("^(;)[[:blank:]]*([a-zA-Z0-9[[:punct:]]])*[[:blank:]]*$");
 const std::regex keys_tf("^[[:blank:]]*[a-zA-Z]{1}[a-zA-Z_]*[[:blank:]]*=[[:blank:]]*(('[a-zA-Z]{1}[a-zA-Z0-9_-]*')|[0-9]+)[[:blank:]]*$");
 const std::regex keys_Tf("^[[:blank:]]*[a-zA-Z]{1}[a-zA-Z_]*[[:blank:]]*=[[:blank:]]*(\[){1}('[a-zA-Z]{1}[a-zA-Z0-9_-]*', )*('[a-zA-Z]{1}[a-zA-Z0-9_-]*'){1}(]){1}[[:blank:]]*$");
 const std::regex keys_tF("^(\t){1}[a-zA-Z]{1}[a-zA-Z_]* = (('[a-zA-Z]{1}[a-zA-Z0-9_-]*')|[0-9]+)$");
