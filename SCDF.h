@@ -24,6 +24,7 @@
 
 #include <regex>
 #include <fstream>
+#include <iostream>
 
 namespace Fenyx
 {

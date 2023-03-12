@@ -71,6 +71,8 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
     if(file.is_open())
     {
         getline(file, l);
+        std::cout << "1" <<std::endl;
+
         if(std::regex_match(l, beg_scdf))
         {
             l.erase(0, 1);
@@ -86,6 +88,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
 
         while(getline(file, l))
         {
+            std::cout << "2" <<std::endl;
             if(std::regex_match(l, cat_scdf))
             {
                 l.erase(0, 1); l.erase(std::prev(l.end()));
@@ -95,6 +98,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(2) == 'f' && std::regex_match(l, keys_tf))
             {
+                std::cout << "3" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = false;
@@ -102,6 +106,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(2) == 'F' && std::regex_match(l, keys_tF))
             {
+                std::cout << "4" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = false;
@@ -109,6 +114,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(0) == 'T' && params.at(2) == 'f' && std::regex_match(l, keys_Tf))
             {
+                std::cout << "5" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = true;
@@ -116,6 +122,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
             }
             else if(params.at(0) == 'T' && params.at(2) == 'F' && std::regex_match(l, keys_TF))
             {
+                std::cout << "6" <<std::endl;
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = true;
@@ -244,6 +251,8 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 
 bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 {
+
+    std::cout << "7" <<std::endl;
     if(std::regex_match(d, d_tab))
     {
         data[g][k].first = true;
@@ -251,6 +260,8 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
     }
     else if(std::regex_match(d, d_val)) data[g][k].first = false;
     else return false;
+
+    std::cout << "8" <<std::endl;
 
     data[g][k].second = d;
 
