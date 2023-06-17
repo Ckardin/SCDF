@@ -17,7 +17,7 @@
 /// @brief Source de SCDF
 /// @author F&nµx
 /// @version 1.0
-/// @date 11/03/2023
+/// @date 17/06/2023
 
 #include "SCDF.h"
 
@@ -173,13 +173,11 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
     return true;
 }
 
-/// @brief Write - Écrit sans un fichier .scdf
+/// @brief Write - Écrit dans un fichier .scdf
 ///
 /// @param filen: Nom du fichier
 ///
 /// @return [true] si la lecture a réussi, [false] sinon.
-///
-/// Une std::map est utilisée, pour stocker les données. Les catégories/clés sont donc écrites, dans le fichier, par ordre alphabétique.
 bool SCDFFile::Write(std::string filen)
 {
     std::ofstream file(filen + ".scdf");
@@ -338,7 +336,30 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
     return true;
 }
 
-/// @brief IsExistG - Vérifie si un groupe existe, dans les données
+/// @brief Validate - Vérifie sir le fichier chargé possède une structure définie
+///
+/// @param validr: Structure définie
+///
+/// @return [true] si la structure du fichier est ok, [false] sinon.
+///
+/// [validr] est une unordered_map entre le nom d'un groupe, et une autre unordered_map (entre le nom de la clé et le type de valeur).
+bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr)
+{
+    for(auto itg = validr.begin(); itg != validr.end(); ++itg)
+    {
+        if(!FindGrp(itg->first)) return false;
+
+        for(auto itk = itg->second.begin(); itk != itg->second.end(); ++itk)
+        {
+            if(!FindKey(itg->first, itk->first))                  return false;
+            if(data[itg->first][itk->first].first != itk->second) return false;
+        }
+    }
+
+    return true;
+}
+
+/// @brief IsExistG - Vérifie si un groupe existe dans les données
 ///
 /// @param g: Groupe
 ///
@@ -348,7 +369,7 @@ bool SCDFFile::IsExistG(std::string g)
     return FindGrp(g);
 }
 
-/// @brief IsExistK - Vérifie si une clé existe, dans les données
+/// @brief IsExistK - Vérifie si une clé existe dans les données, pour un groupe spécifique
 ///
 /// @param g: Groupe
 /// @param k: Clé

@@ -17,11 +17,12 @@
 /// @brief Header de SCDF
 /// @author F&nµx
 /// @version 1.0
-/// @date 11/03/2023
+/// @date 17/06/2023
 
 #ifndef SCDF_H
 #define SCDF_H
 
+#include <unordered_map>
 #include <regex>
 #include <fstream>
 #include <iostream>
@@ -57,6 +58,8 @@ public:
     bool GetTSize(std::string g, std::string k, uint32_t &s);
     bool SetData(std::string g, std::string k, std::string d);
 
+    bool Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr);
+
     bool IsExistG(std::string g);
     bool IsExistK(std::string g, std::string k);
 
@@ -66,7 +69,7 @@ private:
     bool FindKey(std::string g, std::string k);
     bool FindGrp(std::string g);
 
-    std::map<std::string, std::map<std::string, std::pair<bool, std::string>>> data;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::pair<bool, std::string>>> data;
     std::string params;
 };
 
