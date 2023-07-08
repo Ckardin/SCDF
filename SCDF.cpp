@@ -4,7 +4,7 @@ Copyright (C) 2023 BOUCARD NICOLLE Jody
 
 This file is part of LibSCDF.
 
-LibSCDF is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+LibSCDF is free library: you can redistribute it and/or modify it under the terms of the GNU General 
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your 
 option) any later version.
 
@@ -22,12 +22,12 @@ Copyright (C) 2023 BOUCARD NICOLLE Jody
 
 Ce fichier fait partie de LibSCDF.
 
-LibSCDF est un logiciel libre ; vous pouvez le redistribuer ou le modifier suivant les termes de la GNU General 
+LibSCDF est une bibliothèque libre; vous pouvez la redistribuer ou la modifier suivant les termes de la GNU General 
 Public License telle que publiée par la Free Software Foundation, soit la version 3 de la licence, soit (à votre 
 gré) toute version ultérieure.
 
-LibSCDF est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE; sans même la 
-garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION à UN BUT PARTICULIER. Consultez la GNU 
+LibSCDF est distribuée dans l'espoir qu'elle sera utile, mais SANS AUCUNE GARANTIE; sans même la 
+garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION À UN BUT PARTICULIER. Consultez la GNU 
 General Public License pour plus de détails.
 
 Vous devez avoir reçu une copie de la GNU General Public License en même temps que LibSCDF. Si ce n'est pas le cas, consultez 
@@ -213,7 +213,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
 ///
 /// @param filen: Nom du fichier
 ///
-/// @return [true] si la lecture a réussi, [false] sinon.
+/// @return [true] si l'écriture a réussi, [false] sinon.
 bool SCDFFile::Write(std::string filen)
 {
     std::ofstream file(filen + ".scdf");
@@ -241,7 +241,7 @@ bool SCDFFile::Write(std::string filen)
     return true;
 }
 
-/// @brief GetData - Récupères la valeur contenue g/k
+/// @brief GetData - Récupères la valeur contenue dans g/k
 ///
 /// @param g: Groupe
 /// @param k: Clé
@@ -372,7 +372,64 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
     return true;
 }
 
-/// @brief Validate - Vérifie sir le fichier chargé possède une structure définie
+/// @brief GetPValue - Récupères la valeur d'un paramètre
+///
+/// @param tparam: Nom du paramètre concerné
+/// @param v: Valeur du paramètre
+///
+/// @return [true] si réussi, [false] sinon.
+bool SCDFFile::GetPValue(std::string tparam = "UseTabs", bool &v)
+{
+    if(tparam == "UseTabs")
+    {
+        v = (params.at(0) == 't') ? false : true;
+    }
+    else if(tparam == "UseColors")
+    {
+        v = (params.at(0) == 'c') ? false : true;
+    }
+    else if(tparam == "Formating")
+    {
+        v = (params.at(0) == 'f') ? false : true;
+    }
+    else
+    {
+        v = false;
+        return false;
+    }
+
+    return true;
+}
+
+/// @brief SetPValue - Modifie la valeur d'un paramètre
+///
+/// @param tparam: Nom du paramètre concerné
+/// @param v: [true] pour activer la paramètre, [false] pour le désactiver
+///
+/// @return [true] si réussi, [false] sinon.
+bool SCDFFile::SetPValue(std::string tparam, bool v)
+{
+    uint8_t pos;
+    char c;
+
+    if(tparam == "UseTabs")
+    {
+        pos = 0; c = (v) ? 'T' : 't';
+    }
+    else if(tparam == "UseColors")
+    {
+        pos = 1; c = (v) ? 'C' : 'c';
+    }
+    else if(tparam == "Formating")
+    {
+        pos = 2; c = (v) ? 'F' : 'f';
+    }
+    else return false;
+
+    return true;
+}
+
+/// @brief Validate - Vérifie si le fichier chargé possède une structure définie
 ///
 /// @param validr: Structure définie
 ///

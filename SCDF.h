@@ -22,12 +22,12 @@ Copyright (C) 2023 BOUCARD NICOLLE Jody
 
 Ce fichier fait partie de LibSCDF.
 
-LibSCDF est un logiciel libre ; vous pouvez le redistribuer ou le modifier suivant les termes de la GNU General 
+LibSCDF est une bilbiothèque libre; vous pouvez la redistribuer ou la modifier suivant les termes de la GNU General 
 Public License telle que publiée par la Free Software Foundation, soit la version 3 de la licence, soit (à votre 
 gré) toute version ultérieure.
 
-LibSCDF est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE; sans même la 
-garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION à UN BUT PARTICULIER. Consultez la GNU 
+LibSCDF est distribuée dans l'espoir qu'elle sera utile, mais SANS AUCUNE GARANTIE; sans même la 
+garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION À UN BUT PARTICULIER. Consultez la GNU 
 General Public License pour plus de détails.
 
 Vous devez avoir reçu une copie de la GNU General Public License en même temps que LibSCDF. Si ce n'est pas le cas, consultez 
@@ -93,6 +93,9 @@ public:
     bool GetTData(std::string g, std::string k, std::string &d, uint32_t p);
     bool GetTSize(std::string g, std::string k, uint32_t &s);
     bool SetData(std::string g, std::string k, std::string d);
+
+    bool GetPValue(std::string tparam = "UseTabs", bool &v);
+    bool SetPValue(std::string tparam = "UseTabs", bool v = true);
 
     bool Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr);
 

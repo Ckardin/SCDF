@@ -5,7 +5,7 @@
 ### Qu'est-ce que c'est ?
 
 SCDF est une librairie définissant un format de fichier de données, et permettant ainsi de le parser.
-L'utilisation est simplifiée et une documentation Doxygen est présente, dans le code.
+L'utilisation est simplifiée et une documentation Doxygen est présente, dans le code (également compilable).
 
 ### Que signifie SCDF ?
 
@@ -28,14 +28,22 @@ Le format de fichier SCDF est très simple et est comparable aux .ini de Windows
 
 ## Compatibilité
 
-La librairie SCDF, comme tous les outils Ashes, est multi-système à condition de posséder un compilateur "GCC like" (Exemple: MinGW).
+La librairie SCDF, comme tous les outils Ashes, est multi-système, à condition de posséder un compilateur "GCC like" (Exemple: MinGW).
+
+## Licence
+
+La librairie SCDF est sous licence GPL V3. Celle-ci est appliquée à chaque fichier, et peut être consultée via le document COPYING.
 
 ## Comment l'installer ?
 
-### Ashes intialisé
+Vous pouvez tout simplement executer les commandes suivantes:
 
-Si un envirronement Ashes est présent sur votre ordinateur, la librairie SCDF est déjà pré-installée.
+    make
+    make install
 
-### Sinon
+À noter que le dossier d'installation par défaut est:
 
-Alors, dans ce cas, je vous invite à aller installer l'envirronement, à partir d'[ici] (https::github.com/fenyx/Ashes.git "Lien vers Ashes")\. La librairie y étant intégrée, le déploiement en est simplifié.
+* Windows   => C:\Ashes
+* GNU/Linux => /Ashes
+
+Mais celui-ci peut être changé, en ayant défini la variable d'envirronnement ASHES_DIR.
