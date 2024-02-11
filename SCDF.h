@@ -107,6 +107,7 @@ public:
 private:
     bool FindKey(std::string g, std::string k);
     bool FindGrp(std::string g);
+    void TDtoTab(std::string g, std::string k, std::vector<std::string> &tmp_t);
 
     std::unordered_map<std::string, std::unordered_map<std::string, std::pair<bool, std::string>>> data;
     std::string params;

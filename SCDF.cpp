@@ -287,15 +287,7 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
             if(!data[g][k].first) return false;
 
             std::vector<std::string> t_tab;
-            std::string t_str;
-            t_tab.clear();
-
-            t_str = data[g][k].second;
-            t_str.erase(0, 1); t_str.erase(std::prev(t_str.end()));
-
-            std::stringstream sstr(t_str);
-            std::string str_t;
-            while (getline(sstr, str_t, ',')) t_tab.push_back(str_t);
+            TDtoTab(g, k, t_tab);
 
             if(p >= t_tab.size()) return false;
             t_tab[p] = TrimStr(t_tab[p]);
@@ -329,15 +321,7 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
             if(!data[g][k].first) return false;
 
             std::vector<std::string> t_tab;
-            std::string t_str;
-            t_tab.clear();
-
-            t_str = data[g][k].second;
-            t_str.erase(0, 1); t_str.erase(std::prev(t_str.end()));
-
-            std::stringstream sstr(t_str);
-            std::string str_t;
-            while(getline(sstr, str_t, ',')) t_tab.push_back(str_t);
+            TDtoTab(g, k, t_tab);
 
             s = t_tab.size();
         }
@@ -378,7 +362,7 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 /// @param v: Valeur du paramètre
 ///
 /// @return [true] si réussi, [false] sinon.
-bool SCDFFile::GetPValue(std::string tparam = "UseTabs", bool &v)
+bool SCDFFile::GetPValue(std::string tparam, bool &v)
 {
     if(tparam == "UseTabs")
     {
@@ -386,11 +370,11 @@ bool SCDFFile::GetPValue(std::string tparam = "UseTabs", bool &v)
     }
     else if(tparam == "UseColors")
     {
-        v = (params.at(0) == 'c') ? false : true;
+        v = (params.at(1) == 'c') ? false : true;
     }
     else if(tparam == "Formating")
     {
-        v = (params.at(0) == 'f') ? false : true;
+        v = (params.at(2) == 'f') ? false : true;
     }
     else
     {
@@ -410,21 +394,23 @@ bool SCDFFile::GetPValue(std::string tparam = "UseTabs", bool &v)
 bool SCDFFile::SetPValue(std::string tparam, bool v)
 {
     uint8_t pos;
-    char c;
+    std::string c;
 
     if(tparam == "UseTabs")
     {
-        pos = 0; c = (v) ? 'T' : 't';
+        pos = 0; c = (v) ? "T" : "t";
     }
     else if(tparam == "UseColors")
     {
-        pos = 1; c = (v) ? 'C' : 'c';
+        pos = 1; c = (v) ? "C" : "c";
     }
     else if(tparam == "Formating")
     {
-        pos = 2; c = (v) ? 'F' : 'f';
+        pos = 2; c = (v) ? "F" : "f";
     }
     else return false;
+
+    params.replace(pos, 1, c);
 
     return true;
 }
@@ -435,7 +421,7 @@ bool SCDFFile::SetPValue(std::string tparam, bool v)
 ///
 /// @return [true] si la structure du fichier est ok, [false] sinon.
 ///
-/// [validr] est une unordered_map entre le nom d'un groupe, et une autre unordered_map (entre le nom de la clé et le type de valeur).
+/// [validr] est une unordered_map entre le nom d'un groupe, et une autre unordered_map qui entre le nom de la clé et le type de valeur.
 bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr)
 {
     for(auto itg = validr.begin(); itg != validr.end(); ++itg)
@@ -506,6 +492,19 @@ bool SCDFFile::FindGrp(std::string g)
     }
 
     return false;
+}
+
+void SCDFFile::TDtoTab(std::string g, std::string k, std::vector<std::string> &tmp_t)
+{
+    std::string t_str;
+    tmp_t.clear();
+
+    t_str = data[g][k].second;
+    t_str.erase(0, 1); t_str.erase(std::prev(t_str.end()));
+
+    std::stringstream sstr(t_str);
+    std::string str_t;
+    while(getline(sstr, str_t, ',')) tmp_t.push_back(str_t);
 }
 
 }
