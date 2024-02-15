@@ -94,8 +94,8 @@ public:
     bool GetTSize(std::string g, std::string k, uint32_t &s);
     bool SetData(std::string g, std::string k, std::string d);
 
-    bool GetPValue(std::string tparam = "UseTabs", bool &v);
-    bool SetPValue(std::string tparam = "UseTabs", bool v = true);
+    bool GetPValue(std::string tparam, bool &v);
+    bool SetPValue(std::string tparam, bool v = true);
 
     bool Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr);
 

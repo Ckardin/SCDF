@@ -62,7 +62,7 @@ namespace Fenyx
 
 /// @brief TrimStr - Enlève les espaces en début/fin de string
 ///
-/// @param str: string à traiter
+/// @param[in] str: string à traiter
 ///
 /// @return Une chaine de caractères, avec les espaces de début/fin supprimés.
 std::string TrimStr(std::string str)
@@ -82,7 +82,7 @@ std::string TrimStr(std::string str)
 
 /// @brief SCDFTabToS - Créer une représentation d'un vector, dans une string, pour SCDF data
 ///
-/// @param d_tab: Tableau de données
+/// @param[in] d_tab: Tableau de données
 ///
 /// @return Une chaine de caractères, sous forme de tableau SCDF.
 std::string SCDFTabToS(std::vector<std::string> d_tab)
@@ -114,8 +114,8 @@ SCDFFile::SCDFFile()
 
 /// @brief Read - Lit un fichier .scdf
 ///
-/// @param filen: Fichier à lire
-/// @param syntax: [true] si syntax ok, [false] sinon
+/// @param[in]  filen: Fichier à lire
+/// @param[out] syntax: [true] si syntax ok, [false] sinon
 ///
 /// @return [true] si la lecture a réussi, [false] sinon.
 ///
@@ -211,7 +211,7 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
 
 /// @brief Write - Écrit dans un fichier .scdf
 ///
-/// @param filen: Nom du fichier
+/// @param[in] filen: Nom du fichier
 ///
 /// @return [true] si l'écriture a réussi, [false] sinon.
 bool SCDFFile::Write(std::string filen)
@@ -243,9 +243,9 @@ bool SCDFFile::Write(std::string filen)
 
 /// @brief GetData - Récupères la valeur contenue dans g/k
 ///
-/// @param g: Groupe
-/// @param k: Clé
-/// @param d: Valeur de g/k
+/// @param[in]  g: Groupe
+/// @param[in]  k: Clé
+/// @param[out] d: Valeur de g/k
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
@@ -268,10 +268,10 @@ bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
 
 /// @brief GetTData - Récupères la valeur contenue dans g/k[p]
 ///
-/// @param g: Groupe
-/// @param k: Clé
-/// @param d: Valeur de g/k[p]
-/// @param p: Position de la valeur, dans le tableau k
+/// @param[in]  g: Groupe
+/// @param[in]  k: Clé
+/// @param[out] d: Valeur de g/k[p]
+/// @param[in]  p: Position de la valeur, dans le tableau k
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
@@ -303,9 +303,9 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
 
 /// @brief GetTSize - Récupères la taille du tableau g/k[]
 ///
-/// @param g: Groupe
-/// @param k: Clé
-/// @param s: Taille du tableau g/k[]
+/// @param[in]  g: Groupe
+/// @param[in]  k: Clé
+/// @param[out] s: Taille du tableau g/k[]
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
@@ -334,9 +334,9 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 
 /// @brief SetData - Mets à jour la valeur de g/k
 ///
-/// @param g: Groupe
-/// @param k: Clé
-/// @param d: Valeur à mettre dans g/k
+/// @param[in] g: Groupe
+/// @param[in] k: Clé
+/// @param[in] d: Valeur à enregistrer dans g/k
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
@@ -358,8 +358,8 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 
 /// @brief GetPValue - Récupères la valeur d'un paramètre
 ///
-/// @param tparam: Nom du paramètre concerné
-/// @param v: Valeur du paramètre
+/// @param[in]  tparam: Nom du paramètre
+/// @param[out] v: Valeur du paramètre
 ///
 /// @return [true] si réussi, [false] sinon.
 bool SCDFFile::GetPValue(std::string tparam, bool &v)
@@ -387,8 +387,8 @@ bool SCDFFile::GetPValue(std::string tparam, bool &v)
 
 /// @brief SetPValue - Modifie la valeur d'un paramètre
 ///
-/// @param tparam: Nom du paramètre concerné
-/// @param v: [true] pour activer la paramètre, [false] pour le désactiver
+/// @param[in] tparam: Nom du paramètre
+/// @param[in] v: [true] pour activer la paramètre, [false] pour le désactiver
 ///
 /// @return [true] si réussi, [false] sinon.
 bool SCDFFile::SetPValue(std::string tparam, bool v)
@@ -417,11 +417,11 @@ bool SCDFFile::SetPValue(std::string tparam, bool v)
 
 /// @brief Validate - Vérifie si le fichier chargé possède une structure définie
 ///
-/// @param validr: Structure définie
+/// @param[in] validr: Structure définie à valider
 ///
 /// @return [true] si la structure du fichier est ok, [false] sinon.
 ///
-/// [validr] est une unordered_map entre le nom d'un groupe, et une autre unordered_map qui entre le nom de la clé et le type de valeur.
+/// [validr] est une unordered_map entre le nom d'un groupe et une autre unordered_map (entre le nom de la clé et le type de valeur).
 bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr)
 {
     for(auto itg = validr.begin(); itg != validr.end(); ++itg)
@@ -440,7 +440,7 @@ bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::
 
 /// @brief IsExistG - Vérifie si un groupe existe dans les données
 ///
-/// @param g: Groupe
+/// @param[in] g: Groupe
 ///
 /// @return [true] si g existe, [false] sinon.
 bool SCDFFile::IsExistG(std::string g)
@@ -450,8 +450,8 @@ bool SCDFFile::IsExistG(std::string g)
 
 /// @brief IsExistK - Vérifie si une clé existe dans les données, pour un groupe spécifique
 ///
-/// @param g: Groupe
-/// @param k: Clé
+/// @param[in] g: Groupe
+/// @param[in] k: Clé
 ///
 /// @return [true] si g/k existe, [false] sinon.
 bool SCDFFile::IsExistK(std::string g, std::string k)
