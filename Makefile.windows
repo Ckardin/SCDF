@@ -8,9 +8,9 @@ AR=ar
 CXXFLAGS = -fPIC -O2 -Wall -Wextra -Werror -I./
 
 all: doc SCDF.o Prepare
-	@MakeInfo dynamic SCDF
+	@MakeInfo.ps1 dynamic SCDF
 	@$(CC) -shared -fPIC $< -o $(BUILDDIR)/lib/libSCDF.dll
-	@MakeInfo static SCDF
+	@MakeInfo.ps1 static SCDF
 	@$(AR) rcs $(BUILDDIR)/lib/libSCDF.lib $<
 
 install:
@@ -19,12 +19,12 @@ install:
 	@Copy-Item -Path $(BUILDDIR)/share/ -Destination $(ASHES_DIR)/ -Recursive -Force
 
 SCDF.o: SCDF.cpp SCDF.h
-	@MakeInfo module SCDF
+	@MakeInfo.ps1 module SCDF
 	@$(CC) $(CXXFLAGS) -c $< -o $@
 	@strip $@
 
 doc:
-	@MakeInfo doc API
+	@MakeInfo.ps1 doc API
 	@doxygen Doc/Doxygen/Doxyfile
 	@make -C Doc/Latex --no-print-directory
 	@Copy-Item -Path Doc/Latex/refman.pdf -Destination $(BUILDDIR)/share/ -Force
