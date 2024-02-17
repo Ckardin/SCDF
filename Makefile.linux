@@ -1,0 +1,37 @@
+.PHONY: mrproper, clean, doc, install
+# .PHONY: clean, doc, install, Prepare
+
+.SUFFIXES:
+
+CC=g++
+AR=ar
+CXXFLAGS = -fPIC -O2 -Wall -Wextra -Werror -I./
+
+all: doc SCDF.o Prepare
+	@MakeInfo dynamic SCDF
+	@$(CC) -shared -fPIC $< -o $(BUILDDIR)/lib/libSCDF.so
+	@MakeInfo static SCDF
+	@$(AR) rcs $(BUILDDIR)/lib/libSCDF.a $<
+
+install:
+	@cp -f SCDF.h $(ASHES_DIR)/inc/SCDF/
+	@cp -rf $(BUILDDIR)/lib/ $(ASHES_DIR)/
+	@cp -rf $(BUILDDIR)/share/ $(ASHES_DIR)/
+
+SCDF.o: SCDF.cpp SCDF.h
+	@MakeInfo module SCDF
+	@$(CC) $(CXXFLAGS) -c $< -o $@
+	@strip $@
+
+doc:
+	@MakeInfo doc API
+	@doxygen Doc/Doxygen/Doxyfile
+	@make -C Doc/Latex --no-print-directory
+	@cp -f Doc/Latex/refman.pdf $(BUILDDIR)/share/
+	@cp -rf Doc/HTML/ $(BUILDDIR)/share/
+
+clean:
+	@rm -f SCDF.o
+
+mrproper: clean
+	rm -f $(BUILDDIR)\lib\libSCDF.so $(BUILDDIR)\lib\libSCDF.a

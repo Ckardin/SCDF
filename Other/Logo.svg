@@ -1,0 +1,22 @@
+<svg width="128" height="128" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+	<title>Logo Fenyx</title>
+	<desc>Logo pour F&amp;nµx</desc>
+
+	<rect stroke="" x="8" y="8" width="112" height="112" rx="15" ry="15" fill="#C6C6C6" />
+
+	<text fill="#0264AA" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="middle" font-size="2em" x="26" y="43">{</text> // 20
+	<text fill="#5B7684" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="middle" font-size="2em" x="46" y="45">1</text> // 16
+	<text fill="#5B7684" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="middle" font-size="2em" x="62" y="42">|</text>
+	<text fill="#5B7684" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="middle" font-size="2em" x="80" y="45">0</text> // 18
+	<text fill="#0264AA" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="middle" font-size="2em" x="102" y="43">}</text> // 22
+
+	<line x1="20" y1="66" x2="108" y2="66" stroke="#0264AA" stroke-width="2"/>
+
+	<text fill="#F57F17" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="text-bottom" font-size="1.8em" x="32" y="96">F</text>
+	<text fill="#5B7684" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="text-bottom" font-size="1.8em" x="48" y="96">&amp;</text>
+	<text fill="#F57F17" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="text-bottom" font-size="1.8em" x="64" y="96">n</text>
+	<text fill="#5B7684" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="text-bottom" font-size="1.8em" x="80" y="96">µ</text>
+	<text fill="#F57F17" font-family="Source Code Pro" text-anchor="middle" dominant-baseline="text-bottom" font-size="1.8em" x="96" y="96">x</text>
+
+</svg>

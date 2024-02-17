@@ -7,9 +7,9 @@ DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = libSCDF
 PROJECT_NUMBER         = v1.0
 PROJECT_BRIEF          = "A lib for read/write SCDF File"
-PROJECT_LOGO           = D:/Other/Graphism/Logo/Fenyx/Logo.svg
+PROJECT_LOGO           = ../../Other/Logo.svg
 PROJECT_ICON           =
-OUTPUT_DIRECTORY       = ../Doxygen
+OUTPUT_DIRECTORY       = ./Doc/Doxygen
 CREATE_SUBDIRS         = NO
 CREATE_SUBDIRS_LEVEL   = 8
 ALLOW_UNICODE_NAMES    = NO
@@ -125,7 +125,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ../../../SCDF
+INPUT                  = ../../
 INPUT_ENCODING         = UTF-8
 INPUT_FILE_ENCODING    =
 FILE_PATTERNS          = *.c \
