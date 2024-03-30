@@ -7,31 +7,31 @@ CC=g++
 AR=ar
 CXXFLAGS = -fPIC -O2 -Wall -Wextra -Werror -I./
 
-all: doc SCDF.o Prepare
+all: SCDF.o doc
 	@MakeInfo dynamic SCDF
-	@$(CC) -shared -fPIC $< -o $(BUILDDIR)/lib/libSCDF.so
+	$(CC) -shared -fPIC $< -o libSCDF.$(A_SHLIB)
 	@MakeInfo static SCDF
-	@$(AR) rcs $(BUILDDIR)/lib/libSCDF.a $<
+	$(AR) rcs libSCDF.$(A_STLIB) $<
 
 install:
-	@cp -f SCDF.h $(ASHES_DIR)/inc/SCDF/
-	@cp -rf $(BUILDDIR)/lib/ $(ASHES_DIR)/
-	@cp -rf $(BUILDDIR)/share/ $(ASHES_DIR)/
+	install -p -m 755 SCDF.h $(INCDIR)
+	install -p -m 755 libSCDF.$(A_SHLIB) $(LIBDIR)
+	install -p -m 755 libSCDF.$(A_STLIB) $(LIBDIR)
+	install -p -m 755 Doc/Latex/refman.pdf $(SHRDIR)
+	install -p -m 755 -d Doc/HTML/ $(SHRDIR)
 
 SCDF.o: SCDF.cpp SCDF.h
 	@MakeInfo module SCDF
 	@$(CC) $(CXXFLAGS) -c $< -o $@
-	@strip $@
 
 doc:
 	@MakeInfo doc API
 	@doxygen Doc/Doxygen/Doxyfile
 	@make -C Doc/Latex --no-print-directory
-	@cp -f Doc/Latex/refman.pdf $(BUILDDIR)/share/
-	@cp -rf Doc/HTML/ $(BUILDDIR)/share/
 
 clean:
-	@rm -f SCDF.o
+	@rm SCDF.o
 
 mrproper: clean
-	rm -f $(BUILDDIR)\lib\libSCDF.so $(BUILDDIR)\lib\libSCDF.a
+	rm $(BUILDDIR)\lib\libSCDF.$(A_SHLIB)
+	rm $(BUILDDIR)\lib\libSCDF.$(A_STLIB)

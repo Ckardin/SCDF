@@ -1,42 +1,45 @@
-if($($env:ASHES_DIR | grep -c .) -ceq 0)
-{
-    Echo.ps1 "The ASHES_DIR isn't defined." yellow default
-    Echo.ps1 "Don't compile SCDF project. If you do, many problems will occurs." red yellow
+if($($env:ASHES_DIR | grep -c .) -ceq 0) {
+    Set-Item -Path 'Env:\ASHES_DIR' -Value 'C:/Ashes'
+    setx ASHES_DIR C:/Ashes
 }
-else
-{
-    $($env:BUILDDIR="./Build")
 
-    $INCDIR = $($env:ASHES_DIR) + "\inc\SCDF"
-    $LIBDIR = $($env:BUILDDIR) + "\lib"
-    $SHRDIR = $($env:BUILDDIR) + "\share"
-
-    if(Test-Path -Path $INCDIR)
-    {
-        Echo.ps1 "INCDIR... OK" green default
-    }
-    else {
-        mkdir $INCDIR
-        Echo.ps1 "INCDIR... CR" green default
-    }
-
-    if(Test-Path -Path $LIBDIR)
-    {
-        Echo.ps1 "LIBDIR... OK" green default
-    }
-    else {
-        mkdir $LIBDIR
-        Echo.ps1 "LIBDIR... CR" green default
-    }
-
-    if(Test-Path -Path $SHRDIR)
-    {
-        Echo.ps1 "SHRDIR... OK" green default
-    }
-    else {
-        mkdir $SHRDIR
-        Echo.ps1 "SHRDIR... CR" green default
-    }
-
-    Rename-Item Makefile.windows Makefile
+if(!(Test-Path -Path $($env:ASHES_DIR))) {
+    mkdir $($env:ASHES_DIR)
 }
+
+Write-Host "VAR(ASHES_DIR) OK"
+
+
+
+$BIN_DIR = $($env:ASHES_DIR) + "\bin"
+$LIB_DIR = $($env:ASHES_DIR) + "\lib"
+$INC_DIR = $($env:ASHES_DIR) + "\share"
+
+
+if(!(Test-Path -Path $BIN_DIR)) {
+    mkdir $BIN_DIR
+}
+Write-Host "BINDIR OK"
+
+
+if(!(Test-Path -Path $LIB_DIR)) {
+    mkdir $LIB_DIR
+}
+Write-Host "LIBDIR OK"
+
+
+if(!(Test-Path -Path $INC_DIR)) {
+    mkdir $INC_DIR
+}
+Write-Host "INCDIR OK"
+
+
+
+# Set-Item -Path 'Env:\CP' -Value 'Copy-Item'
+# Set-Item -Path 'Env:\RM' -Value 'Remove-Item'
+Set-Item -Path 'Env:\A_SHLIB' -Value 'dll'
+Set-Item -Path 'Env:\A_STLIB' -Value 'lib'
+
+Set-Item -Path 'Env:\BINDIR' -Value $BIN_DIR
+Set-Item -Path 'Env:\LIBDIR' -Value $LIB_DIR
+Set-Item -Path 'Env:\INCDIR' -Value $INC_DIR
