@@ -1,4 +1,4 @@
-/// English version
+/* English version */
 /*
 Copyright (C) 2023 BOUCARD NICOLLE Jody
 
@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License along with Lib
 <https://www.gnu.org/licenses/>.
 */
 
-/// Version française
+/* Version française */
 /*
 Copyright (C) 2023 BOUCARD NICOLLE Jody
 

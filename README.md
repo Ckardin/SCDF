@@ -49,7 +49,6 @@ Celle-ci peut être clonée et installée via mon github.
 Vous pouvez tout simplement executer les commandes suivantes:
 
     make
-    make doc
     make install
 
 À noter que le dossier d'installation est défini par la variable d'envirronement ASHES_DIR (créée lors de l'installation d'AScripts).
