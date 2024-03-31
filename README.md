@@ -1,4 +1,10 @@
-# SCDF
+<div style="text-align:center;">
+    <img src="./Other/Logo.svg" alt="F&nµx">
+</div>
+
+<div style="text-align:center;">
+<h1>SCDF</h1>
+</div>
 
 ## Présentation
 
