@@ -29,7 +29,7 @@ SCDF.o: SCDF.cpp SCDF.h
 dox:
 	@MakeInfo doc API
 	@doxygen Doc/Doxygen/Doxyfile
-	@make -C Doc/Latex --no-print-directory
+	@make -C Doc/Latex --no-print-directory > DocCompileFile.txt 2>&1
 
 clean:
 	@MakeInfo clean objfiles
