@@ -80,7 +80,7 @@ const std::string Spaces = " \n\r\t\f\v";
 std::string TrimStr(std::string str);
 std::string SCDFTabToS(std::vector<std::string> d_tab);
 
-/// @brief SCDFFile - Classe qui permets de parser/écrire les fichiers .scdf
+/// @brief SCDFFile - Classe qui permet de parser/écrire les fichiers .scdf
 class SCDFFile
 {
 public:

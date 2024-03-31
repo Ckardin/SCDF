@@ -1,4 +1,4 @@
-/* English version */
+/// English version
 /*
 Copyright (C) 2023 BOUCARD NICOLLE Jody
 
@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License along with Lib
 <https://www.gnu.org/licenses/>.
 */
 
-/* Version française */
+/// Version française
 /*
 Copyright (C) 2023 BOUCARD NICOLLE Jody
 
@@ -64,7 +64,7 @@ namespace Fenyx
 ///
 /// @param[in] str: string à traiter
 ///
-/// @return Une chaine de caractères, avec les espaces de début/fin supprimés.
+/// @return Une chaine de caractères avec les espaces de début/fin supprimés.
 std::string TrimStr(std::string str)
 {
     auto ltrim = [](std::string l_str) -> std::string {
@@ -80,11 +80,11 @@ std::string TrimStr(std::string str)
     return rtrim(ltrim(str));
 }
 
-/// @brief SCDFTabToS - Créer une représentation d'un vector, dans une string, pour SCDF data
+/// @brief SCDFTabToS - Créer une représentation d'un vector, dans une string, pour une donnée SCDF
 ///
 /// @param[in] d_tab: Tableau de données
 ///
-/// @return Une chaine de caractères, sous forme de tableau SCDF.
+/// @return Une chaine de caractères sous forme de tableau SCDF.
 std::string SCDFTabToS(std::vector<std::string> d_tab)
 {
     std::string ret = "[";
@@ -241,7 +241,7 @@ bool SCDFFile::Write(std::string filen)
     return true;
 }
 
-/// @brief GetData - Récupères la valeur contenue dans g/k
+/// @brief GetData - Récupère la valeur contenue dans g/k
 ///
 /// @param[in]  g: Groupe
 /// @param[in]  k: Clé
@@ -249,7 +249,7 @@ bool SCDFFile::Write(std::string filen)
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
-/// /!\ Ne permets pas de récupérer une valeur dans un tableau.
+/// /!\ Ne permet pas de récupérer une valeur dans un tableau.
 bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
 {
     if(FindGrp(g))
@@ -266,16 +266,16 @@ bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
     return true;
 }
 
-/// @brief GetTData - Récupères la valeur contenue dans g/k[p]
+/// @brief GetTData - Récupère la valeur contenue dans g/k[p]
 ///
 /// @param[in]  g: Groupe
 /// @param[in]  k: Clé
 /// @param[out] d: Valeur de g/k[p]
-/// @param[in]  p: Position de la valeur, dans le tableau k
+/// @param[in]  p: Position de la valeur dans le tableau k
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
-/// /!\ Ne permets pas de récupérer une valeur simple.
+/// /!\ Ne permet pas de récupérer une valeur simple.
 bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p)
 {
     if(params.at(0) == 't') return false;
@@ -301,7 +301,7 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
     return true;
 }
 
-/// @brief GetTSize - Récupères la taille du tableau g/k[]
+/// @brief GetTSize - Récupère la taille du tableau g/k[]
 ///
 /// @param[in]  g: Groupe
 /// @param[in]  k: Clé
@@ -309,7 +309,7 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
-/// Renvoie [false] si g/k n'est pas un tableau.
+/// /!\ Renvoie [false] si g/k n'est pas un tableau.
 bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 {
     if(params.at(0) == 't') return false;
@@ -332,7 +332,7 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
     return true;
 }
 
-/// @brief SetData - Mets à jour la valeur de g/k
+/// @brief SetData - Met à jour la valeur de g/k
 ///
 /// @param[in] g: Groupe
 /// @param[in] k: Clé
@@ -340,7 +340,7 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 ///
 /// @return [true] si réussi, [false] sinon.
 ///
-/// Si d contient un tableau, alors g/k deviendra g/k[], et le cas échéant, le paramètre UseTabs sera activé.
+/// Si d contient un tableau alors g/k deviendra g/k[] et, le cas échéant, le paramètre UseTabs sera activé.
 bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 {
     if(std::regex_match(d, d_tab))
@@ -356,7 +356,7 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
     return true;
 }
 
-/// @brief GetPValue - Récupères la valeur d'un paramètre
+/// @brief GetPValue - Récupère la valeur d'un paramètre
 ///
 /// @param[in]  tparam: Nom du paramètre
 /// @param[out] v: Valeur du paramètre
@@ -421,7 +421,7 @@ bool SCDFFile::SetPValue(std::string tparam, bool v)
 ///
 /// @return [true] si la structure du fichier est ok, [false] sinon.
 ///
-/// [validr] est une unordered_map entre le nom d'un groupe et une autre unordered_map (entre le nom de la clé et le type de valeur).
+/// [validr] est une unordered_map entre le nom d'un groupe et une autre unordered_map qui lie le nom de la clé et le type de valeur.
 bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr)
 {
     for(auto itg = validr.begin(); itg != validr.end(); ++itg)

@@ -4,8 +4,8 @@
 
 ### Qu'est-ce que c'est ?
 
-SCDF est une librairie définissant un format de fichier de données, et permettant ainsi de le parser.
-L'utilisation est simplifiée et une documentation Doxygen est présente dans le code (également compilable).
+SCDF est une librairie définissant un format de fichier de données et permettant ainsi de le parser.
+L'utilisation est simplifiée et une documentation Doxygen est présente dans le code (également compilée).
 
 ### Que signifie SCDF ?
 
@@ -13,7 +13,7 @@ SCDF est l'acronyme de Simple and Configurable Data File.
 
 ### Format de fichier
 
-Le format de fichier SCDF est très simple et est comparable aux .ini de Windows. Cependant, les catégories ne comportent plus de crochets mais des accolades, les tableaux sont supportés et une configuration, au début du fichier, est implémentée (Voir documentation). Ainsi, un fichier type serait:
+Le format de fichier SCDF est très simple et est comparable aux .ini de Windows. Cependant, les catégories ne comportent plus de crochets mais des accolades, les tableaux sont supportés et une configuration, au début du fichier, est implémentée (Voir documentation). Ainsi un fichier type serait:
 
     -TCF
 
