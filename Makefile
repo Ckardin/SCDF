@@ -28,8 +28,8 @@ SCDF.o: SCDF.cpp SCDF.h
 
 dox:
 	@MakeInfo doc API
-	@doxygen Doc/Doxygen/Doxyfile
-	@make -C Doc/Latex --no-print-directory > DocCompileFile.txt 2>&1
+	@doxygen Doc/Doxygen/Doxyfile > DocCompileFile.txt 2>&1
+	@make -C Doc/Latex --no-print-directory > LatexCompileFile.txt 2>&1
 
 clean:
 	@MakeInfo clean objfiles
@@ -41,3 +41,5 @@ mrproper:
 	@rm libSCDF.$(A_STLIB)
 	@MakeInfo clean doc
 	@rm Doc/Latex/*
+	@rm DocCompileFile.txt
+	@rm LatexCompileFile.txt
