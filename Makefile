@@ -7,12 +7,6 @@ CC=g++
 AR=ar
 CXXFLAGS = -fPIC -O2 -Wall -Wextra -Werror -I./
 
-A_SHLIB=so
-A_STLIB=a
-A_EXT=
-SHRDIR=$(ASHES_DIR)/share
-LIBDIR=$(ASHES_DIR)/lib
-INCDIR=$(ASHES_DIR)/inc
 
 all: SCDF.o dox
 	@MakeInfo fr dynamic SCDF
