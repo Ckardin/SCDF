@@ -1,6 +1,6 @@
 /// English version
 /*
-Copyright (C) 2023 BOUCARD NICOLLE Jody
+Copyright (C) 2025 BOUCARD NICOLLE Jody
 
 This file is part of LibSCDF.
 
@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with Lib
 
 /// Version française
 /*
-Copyright (C) 2023 BOUCARD NICOLLE Jody
+Copyright (C) 2025 BOUCARD NICOLLE Jody
 
 Ce fichier fait partie de LibSCDF.
 

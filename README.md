@@ -19,7 +19,7 @@ SCDF est l'acronyme de Simple and Configurable Data File.
 
 ### Format de fichier
 
-Le format de fichier SCDF est très simple (comparable aux .ini de Windows). Cependant les catégories ne comportent plus de crochets mais des accolades, les tableaux sont supportés et une configuration est implémentée au début du fichier (Voir documentation). Ainsi un fichier type serait:
+Le format de fichier SCDF est très simple (comparable aux .ini de Windows). Cependant, les catégories ne comportent plus de crochets mais des accolades, les tableaux sont supportés et une configuration est implémentée au début du fichier (Voir documentation). Ainsi un fichier type serait :
 
     -TCF
 
@@ -34,7 +34,7 @@ Le format de fichier SCDF est très simple (comparable aux .ini de Windows). Cep
 
 ## Compatibilité
 
-La librairie SCDF est multi-système (comme tous les outils Ashes), à condition de posséder un compilateur "GCC like" (Exemple: MinGW).
+La librairie SCDF est multi-système (comme tous les outils Ashes), à condition de posséder un compilateur "GCC like" (Exemple : MinGW).
 
 ## Licence
 
@@ -52,9 +52,10 @@ Celle-ci peut être clonée et installée via mon github.
 
 ### Installation
 
-Vous pouvez tout simplement executer les commandes suivantes:
+Vous pouvez tout simplement exécuter les commandes suivantes :
 
+    ./WindowsPrepare.ps1 OU ./LinuxPrepare.{sh, zsh}
     make
     make install
 
-À noter que le dossier d'installation est défini par la variable d'envirronement ASHES_DIR (créée lors de l'installation d'AScripts).
+À noter que le dossier d'installation est défini par la variable d'environment ASHES_DIR (créée lors de l'installation d'AScripts).
