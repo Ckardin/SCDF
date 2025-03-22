@@ -44,13 +44,13 @@ fi
 
 echo "VAR(ASHES_DIR) OK"
 
-mkdir -p "$ASHES_DIR"/bin && echo "BINDIR OK"
 mkdir -p "$ASHES_DIR"/lib && echo "LIBDIR OK"
 mkdir -p "$ASHES_DIR"/inc && echo "INCDIR OK"
+mkdir -p "$ASHES_DIR"/share && echo "SHRDIR OK"
 
-sed -i '9a A_SHLIB=so' src/Makefile
-sed -i '10a A_STLIB=a' src/Makefile
-sed -i '11a A_EXT=' src/Makefile
-sed -i '12a BINDIR=$(ASHES_DIR)/bin' src/Makefile
-sed -i '13a LIBDIR=$(ASHES_DIR)/lib' src/Makefile
-sed -i '14a INCDIR=$(ASHES_DIR)/inc' src/Makefile
+sed -i '9a A_SHLIB=so' Makefile
+sed -i '10a A_STLIB=a' Makefile
+sed -i '11a A_EXT=' Makefile
+sed -i '12a SHRDIR=$(ASHES_DIR)/share' Makefile
+sed -i '13a LIBDIR=$(ASHES_DIR)/lib' Makefile
+sed -i '14a INCDIR=$(ASHES_DIR)/inc' Makefile

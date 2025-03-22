@@ -68,16 +68,16 @@ namespace Fenyx
 std::string TrimStr(std::string str)
 {
     auto ltrim = [](std::string l_str) -> std::string {
-        size_t s = l_str.find_first_not_of(Spaces);
+        const size_t s = l_str.find_first_not_of(Spaces);
         return (s == std::string::npos) ? "" : l_str.substr(s);
     };
 
     auto rtrim = [](std::string r_str) -> std::string {
-        size_t s = r_str.find_last_not_of(Spaces);
+        const size_t s = r_str.find_last_not_of(Spaces);
         return (s == std::string::npos) ? "" : r_str.substr(0, s + 1);
     };
 
-    return rtrim(ltrim(str));
+    return rtrim(ltrim(std::move(str)));
 }
 
 /// @brief SCDFTabToS - Créer une représentation d'un vector, dans une string, pour une donnée SCDF
@@ -89,9 +89,8 @@ std::string SCDFTabToS(std::vector<std::string> d_tab)
 {
     std::string ret = "[";
 
-    for(auto i = d_tab.begin(); i != d_tab.end(); i++)
-    {
-        ret += *i; 
+    for (const auto & i : d_tab) {
+        ret += i;
         ret += ", ";
     }
 
@@ -135,67 +134,51 @@ bool SCDFFile::Read(std::string filen, bool &syntax)
         v = TrimStr(v);
     };
 
-    for(auto i = data.begin(); i != data.end(); i = i++) i->second.clear();
+    for (auto i = data.begin(); i != data.end(); i = i++) i->second.clear();
     data.clear();
 
     std::ifstream file(filen + ".scdf");
-    if(file.is_open())
-    {
+    if (file.is_open()) {
         getline(file, l);
 
-        if(std::regex_match(l, beg_scdf))
-        {
+        if (std::regex_match(l, beg_scdf)) {
             l.erase(0, 1);
             params = l;
-        }
-        else
-        {
+        } else {
             syntax = false; file.close();
             return false;
         }
 
         std::string K = "", V = "";
 
-        while(getline(file, l))
-        {
-            if(std::regex_match(l, cat_scdf))
-            {
+        while (getline(file, l)) {
+            if (std::regex_match(l, cat_scdf)) {
                 l.erase(0, 1); l.erase(std::prev(l.end()));
                 data[l].clear();
 
                 a_cat = l;
-            }
-            else if(params.at(2) == 'f' && std::regex_match(l, keys_tf))
-            {
+            } else if (params.at(2) == 'f' && std::regex_match(l, keys_tf)) {
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = false;
                 data[a_cat][K].second = V;
-            }
-            else if(params.at(2) == 'F' && std::regex_match(l, keys_tF))
-            {
+            } else if (params.at(2) == 'F' && std::regex_match(l, keys_tF)) {
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = false;
                 data[a_cat][K].second = V;
-            }
-            else if(params.at(0) == 'T' && params.at(2) == 'f' && std::regex_match(l, keys_Tf))
-            {
+            } else if (params.at(0) == 'T' && params.at(2) == 'f' && std::regex_match(l, keys_Tf)) {
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = true;
                 data[a_cat][K].second = V;
-            }
-            else if(params.at(0) == 'T' && params.at(2) == 'F' && std::regex_match(l, keys_TF))
-            {
+            } else if(params.at(0) == 'T' && params.at(2) == 'F' && std::regex_match(l, keys_TF)) {
                 Parse_kv(l, K, V);
 
                 data[a_cat][K].first  = true;
                 data[a_cat][K].second = V;
-            }
-            else if(std::regex_match(l, com_scdf) || std::regex_match(l, std::regex("^$"))) continue;
-            else
-            {
+            } else if(std::regex_match(l, com_scdf) || std::regex_match(l, std::regex("^$"))) continue;
+            else {
                 syntax = false; file.close();
                 return false;
             }
@@ -218,19 +201,16 @@ bool SCDFFile::Write(std::string filen)
 {
     std::ofstream file(filen + ".scdf");
 
-    if(file.is_open())
-    {
+    if (file.is_open()) {
         file << "-" << params <<std::endl;
         if(params.at(2) == 'F') file << "" <<std::endl;
 
-        for(auto i = data.begin(); i != data.end(); i++)
-        {
-            file << "{" << i->first << "}" <<std::endl;
+        for (auto &[fst, snd] : data) {
+            file << "{" << fst << "}" <<std::endl;
 
-            for(auto j = i->second.begin(); j != i->second.end(); j++)
-            {
-                if(params.at(2) == 'F') file << "\t" << j->first << " = " << j->second.second <<std::endl;
-                else                    file << j->first << "=" << j->second.second <<std::endl;
+            for (auto &[fst, snd] : snd) {
+                if (params.at(2) == 'F') file << "\t" << fst << " = " << snd.second <<std::endl;
+                else                       file << fst << "=" << snd.second <<std::endl;
             }
         }
     }
@@ -252,11 +232,9 @@ bool SCDFFile::Write(std::string filen)
 /// /!\ Ne permet pas de récupérer une valeur dans un tableau.
 bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
 {
-    if(FindGrp(g))
-    {
-        if(FindKey(g, k))
-        {
-            if(data[g][k].first && params.at(0) == 'T') return false;
+    if (FindGrp(g)) {
+        if (FindKey(g, k)) {
+            if (data[g][k].first && params.at(0) == 'T') return false;
             d = data[g][k].second;
         }
         else return false;
@@ -278,13 +256,11 @@ bool SCDFFile::GetData(std::string g, std::string k, std::string &d)
 /// /!\ Ne permet pas de récupérer une valeur simple.
 bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p)
 {
-    if(params.at(0) == 't') return false;
+    if (params.at(0) == 't') return false;
 
-    if(FindGrp(g))
-    {
-        if(FindKey(g, k))
-        {
-            if(!data[g][k].first) return false;
+    if (FindGrp(g)) {
+        if(FindKey(g, k)) {
+            if (!data[g][k].first) return false;
 
             std::vector<std::string> t_tab;
             TDtoTab(g, k, t_tab);
@@ -312,13 +288,11 @@ bool SCDFFile::GetTData(std::string g, std::string k, std::string &d, uint32_t p
 /// /!\ Renvoie [false] si g/k n'est pas un tableau.
 bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 {
-    if(params.at(0) == 't') return false;
+    if (params.at(0) == 't') return false;
 
-    if(FindGrp(g))
-    {
-        if(FindKey(g, k))
-        {
-            if(!data[g][k].first) return false;
+    if (FindGrp(g)) {
+        if (FindKey(g, k)) {
+            if (!data[g][k].first) return false;
 
             std::vector<std::string> t_tab;
             TDtoTab(g, k, t_tab);
@@ -343,12 +317,11 @@ bool SCDFFile::GetTSize(std::string g, std::string k, uint32_t &s)
 /// Si d contient un tableau alors g/k deviendra g/k[] et, le cas échéant, le paramètre UseTabs sera activé.
 bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 {
-    if(std::regex_match(d, d_tab))
-    {
+    if (std::regex_match(d, d_tab)) {
         data[g][k].first = true;
         if(params.at(0) == 't') params.replace(0, 1, "T");
     }
-    else if(std::regex_match(d, d_val)) data[g][k].first = false;
+    else if (std::regex_match(d, d_val)) data[g][k].first = false;
     else return false;
 
     data[g][k].second = d;
@@ -362,22 +335,14 @@ bool SCDFFile::SetData(std::string g, std::string k, std::string d)
 /// @param[out] v: Valeur du paramètre
 ///
 /// @return [true] si réussi, [false] sinon.
-bool SCDFFile::GetPValue(std::string tparam, bool &v)
-{
-    if(tparam == "UseTabs")
-    {
-        v = (params.at(0) == 't') ? false : true;
-    }
-    else if(tparam == "UseColors")
-    {
-        v = (params.at(1) == 'c') ? false : true;
-    }
-    else if(tparam == "Formating")
-    {
-        v = (params.at(2) == 'f') ? false : true;
-    }
-    else
-    {
+bool SCDFFile::GetPValue(std::string tparam, bool &v) const {
+    if (tparam == "UseTabs") {
+        v = (params.at(0) != 't');
+    } else if(tparam == "UseColors") {
+        v = (params.at(1) != 'c');
+    } else if(tparam == "Formating") {
+        v = (params.at(2) != 'f');
+    } else {
         v = false;
         return false;
     }
@@ -396,16 +361,11 @@ bool SCDFFile::SetPValue(std::string tparam, bool v)
     uint8_t pos;
     std::string c;
 
-    if(tparam == "UseTabs")
-    {
+    if (tparam == "UseTabs") {
         pos = 0; c = (v) ? "T" : "t";
-    }
-    else if(tparam == "UseColors")
-    {
+    } else if (tparam == "UseColors") {
         pos = 1; c = (v) ? "C" : "c";
-    }
-    else if(tparam == "Formating")
-    {
+    } else if (tparam == "Formating") {
         pos = 2; c = (v) ? "F" : "f";
     }
     else return false;
@@ -422,16 +382,14 @@ bool SCDFFile::SetPValue(std::string tparam, bool v)
 /// @return [true] si la structure du fichier est ok, [false] sinon.
 ///
 /// [validr] est une unordered_map entre le nom d'un groupe et une autre unordered_map qui lie le nom de la clé et le type de valeur.
-bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr)
+bool SCDFFile::Validate(const std::unordered_map<std::string, std::unordered_map<std::string, bool>>& validr)
 {
-    for(auto itg = validr.begin(); itg != validr.end(); ++itg)
-    {
-        if(!FindGrp(itg->first)) return false;
+    for (auto &[fst, snd] : validr) {
+        if (!FindGrp(fst)) return false;
 
-        for(auto itk = itg->second.begin(); itk != itg->second.end(); ++itk)
-        {
-            if(!FindKey(itg->first, itk->first))                  return false;
-            if(data[itg->first][itk->first].first != itk->second) return false;
+        for(auto & itk : snd) {
+            if (!FindKey(fst, itk.first))       return false;
+            if (data[fst][itk.first].first != itk.second) return false;
         }
     }
 
@@ -443,7 +401,7 @@ bool SCDFFile::Validate(std::unordered_map<std::string, std::unordered_map<std::
 /// @param[in] g: Groupe
 ///
 /// @return [true] si g existe, [false] sinon.
-bool SCDFFile::IsExistG(std::string g)
+bool SCDFFile::IsExistG(const std::string &g)
 {
     return FindGrp(g);
 }
@@ -454,7 +412,7 @@ bool SCDFFile::IsExistG(std::string g)
 /// @param[in] k: Clé
 ///
 /// @return [true] si g/k existe, [false] sinon.
-bool SCDFFile::IsExistK(std::string g, std::string k)
+bool SCDFFile::IsExistK(const std::string &g, const std::string &k)
 {
     return FindKey(g, k);
 }
@@ -464,20 +422,18 @@ bool SCDFFile::IsExistK(std::string g, std::string k)
 /// Destructeur de la classe SCDFFile.
 SCDFFile::~SCDFFile()
 {
-    for(auto i = data.begin(); i != data.end(); i++) i->second.clear();
+    for (auto &[fst, snd] : data) snd.clear();
 
     data.clear();
     params = "";
 }
 
 
-bool SCDFFile::FindKey(std::string g, std::string k)
+bool SCDFFile::FindKey(const std::string& g, const std::string& k)
 {
-    if(FindGrp(g))
-    {
-        for(auto i = data[g].begin(); i != data[g].end(); i++)
-        {
-            if(i->first == k) return true;
+    if (FindGrp(g)) {
+        for (auto &[fst, snd] : data[g]) {
+            if(fst == k) return true;
         }
     }
 
@@ -486,20 +442,18 @@ bool SCDFFile::FindKey(std::string g, std::string k)
 
 bool SCDFFile::FindGrp(std::string g)
 {
-    for(auto i = data.begin(); i != data.end(); i++)
-    {
-        if(i->first == g) return true;
+    for (auto &[fst, snd] : data) {
+        if(fst == g) return true;
     }
 
     return false;
 }
 
-void SCDFFile::TDtoTab(std::string g, std::string k, std::vector<std::string> &tmp_t)
+void SCDFFile::TDtoTab(const std::string& g, const std::string& k, std::vector<std::string> &tmp_t)
 {
-    std::string t_str;
     tmp_t.clear();
 
-    t_str = data[g][k].second;
+    std::string t_str = data[g][k].second;
     t_str.erase(0, 1); t_str.erase(std::prev(t_str.end()));
 
     std::stringstream sstr(t_str);

@@ -62,6 +62,8 @@ Vous devez avoir reçu une copie de la GNU General Public License en même temps
 #include <regex>
 #include <fstream>
 #include <iostream>
+#include <cstdint>
+#include <utility>
 
 namespace Fenyx
 {
@@ -94,20 +96,20 @@ public:
     bool GetTSize(std::string g, std::string k, uint32_t &s);
     bool SetData(std::string g, std::string k, std::string d);
 
-    bool GetPValue(std::string tparam, bool &v);
+    bool GetPValue(std::string tparam, bool &v) const;
     bool SetPValue(std::string tparam, bool v = true);
 
-    bool Validate(std::unordered_map<std::string, std::unordered_map<std::string, bool>> validr);
+    bool Validate(const std::unordered_map<std::string, std::unordered_map<std::string, bool>>& validr);
 
-    bool IsExistG(std::string g);
-    bool IsExistK(std::string g, std::string k);
+    bool IsExistG(const std::string &g);
+    bool IsExistK(const std::string &g, const std::string &k);
 
     ~SCDFFile();
 
 private:
-    bool FindKey(std::string g, std::string k);
+    bool FindKey(const std::string& g, const std::string& k);
     bool FindGrp(std::string g);
-    void TDtoTab(std::string g, std::string k, std::vector<std::string> &tmp_t);
+    void TDtoTab(const std::string& g, const std::string& k, std::vector<std::string> &tmp_t);
 
     std::unordered_map<std::string, std::unordered_map<std::string, std::pair<bool, std::string>>> data;
     std::string params;

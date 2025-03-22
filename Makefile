@@ -7,6 +7,12 @@ CC=g++
 AR=ar
 CXXFLAGS = -fPIC -O2 -Wall -Wextra -Werror -I./
 
+A_SHLIB=so
+A_STLIB=a
+A_EXT=
+SHRDIR=$(ASHES_DIR)/share
+LIBDIR=$(ASHES_DIR)/lib
+INCDIR=$(ASHES_DIR)/inc
 
 all: SCDF.o dox
 	@MakeInfo fr dynamic SCDF
@@ -21,7 +27,7 @@ install:
 	@install -p -m 755 libSCDF.$(A_SHLIB) $(LIBDIR)
 	@install -p -m 755 libSCDF.$(A_STLIB) $(LIBDIR)
 	@MakeInfo fr install doc
-	@install -p -m 755 Doc/Latex/refman.pdf $(SHRDIR)
+	@install -p -m 755 Doc/Latex/refman.pdf $(SHRDIR)/SCDF.pdf
 
 SCDF.o: SCDF.cpp SCDF.h
 	@MakeInfo fr module SCDF
